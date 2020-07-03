@@ -21,10 +21,10 @@ class TodoList extends React.Component {
       this.setState({ value: '' });
     }
   };
-  /* onDeleteClick = () => {
+  onDeleteClick = (index) => {
     const { listItems } = this.state;
     this.setState({ listItems: listItems.splice(index, 1) });
-  }; */
+  };
   render() {
     const { value, listItems } = this.state;
     return (
@@ -37,7 +37,12 @@ class TodoList extends React.Component {
         />
         {listItems.map((item, index) => (
           <div key={index}>
-            {item} <DeleteButton index={this.index} listItems={listItems} />
+            {item}
+            <DeleteButton
+              index={index}
+              listItems={listItems}
+              onDeleteClick={() => this.onDeleteClick(index)}
+            />
           </div>
         ))}
         <Counter listItems={listItems} />
