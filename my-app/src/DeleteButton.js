@@ -2,10 +2,12 @@ import React from 'react';
 
 class DeleteButton extends React.Component {
   render() {
-    const { onDeleteClick } = this.props;
+    const { onDelete } = this.props;
     return (
       <div>
-        <button onClick={onDeleteClick}>X</button>
+        <button onClick={onDelete} className={'deleteButton'}>
+          X
+        </button>
       </div>
     );
   }

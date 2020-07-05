@@ -1,4 +1,17 @@
 .listItem {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  border: 1px solid black;
+  border-top: none;
+}
+
+.done {
+  text-decoration: line-through;
+}
+
+.deleteButton {
+  border: none;
+  background-color: transparent;
+  outline: 0;
 }

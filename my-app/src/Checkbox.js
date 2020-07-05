@@ -2,10 +2,10 @@ import React from 'react';
 
 class Checkbox extends React.Component {
   render() {
-    const { id, onCheckboxClick } = this.props;
+    const { isDone, onCheck } = this.props;
     return (
       <div>
-        <input type="checkbox" id={id} onChange={onCheckboxClick} />
+        <input type="checkbox" checked={isDone} value={isDone} onChange={onCheck} />
       </div>
     );
   }

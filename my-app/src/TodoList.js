@@ -11,56 +11,76 @@ class TodoList extends React.Component {
     this.state = {
       value: '',
       listItems: [],
-      counter: 0,
+      isAll: true,
+      isActive: false,
     };
   }
   onInputChange = (e) => {
     this.setState({ value: e.target.value });
   };
-  onInputClick = () => {
+  addItem = () => {
     const { value, listItems } = this.state;
     if (value !== '') {
-      this.setState({ listItems: [...listItems, value] });
+      const id = listItems.length === 0 ? 1 : listItems[listItems.length - 1].id + 1;
+      const item = {
+        id,
+        value,
+        isDone: false,
+      };
+      this.setState({ listItems: [...listItems, item] });
       this.setState({ value: '' });
     }
   };
-  onDeleteClick = (index) => {
+  onDelete = (id) => {
     const { listItems } = this.state;
-    listItems.splice(index, 1);
-    this.setState({ listItems: listItems });
+    const newLisItems = listItems.filter((item) => item.id !== id);
+    this.setState({ listItems: newLisItems });
   };
-  onCheckboxClick = (index) => {
-    const check = document.getElementById(index);
-    const listItem = document.getElementById('item ' + index);
-    if (check.checked) {
-      console.log('checked', index, listItem);
-      listItem.style.textDecoration = 'line-through';
-    } else {
-      console.log('unchecked', index);
-      listItem.style.textDecoration = 'none';
-    }
+  onCheck = (id) => {
+    const { listItems } = this.state;
+    const newLisItems = listItems.map((item) => {
+      if (id === item.id) {
+        return {
+          ...item,
+          isDone: !item.isDone,
+        };
+      }
+      return item;
+    });
+    this.setState({ listItems: newLisItems });
+  };
+  filter = (type, value) => {
+    this.setState({
+      isAll: type === 'isAll' ? true : false,
+      isActive: value,
+    });
   };
   render() {
-    const { value, listItems } = this.state;
+    const { value, listItems, isAll, isActive } = this.state;
+    const filteredList = isAll
+      ? listItems
+      : listItems.filter((item) => item.isDone !== isActive);
     return (
       <div>
         <Input
           value={value}
           listItems={listItems}
           onInputChange={this.onInputChange}
-          onInputClick={this.onInputClick}
+          addItem={this.addItem}
         />
-        {listItems.map((item, index) => (
-          <div className="listItem" key={index}>
-            <Checkbox id={index} onCheckboxClick={() => this.onCheckboxClick(index)} />
-            <span id={'item ' + index}>{item}</span>
-            <DeleteButton
-              listItems={listItems}
-              onDeleteClick={() => this.onDeleteClick(index)}
-            />
+        {filteredList.map(({ id, value, isDone }) => (
+          <div className="listItem" key={id}>
+            <Checkbox isDone={isDone} onCheck={() => this.onCheck(id)} />
+            <span className={isDone ? 'done' : 'undone'}>{value}</span>
+            <DeleteButton onDelete={() => this.onDelete(id)} />
           </div>
         ))}
         <Counter listItems={listItems} />
+        <div>
+          <button onClick={() => this.filter('isAll', true)}>All</button>
+          <button onClick={() => this.filter('isActive', true)}>Active</button>
+          <button onClick={() => this.filter('isActive', false)}>Completed</button>
+        </div>
       </div>
     );
   }
