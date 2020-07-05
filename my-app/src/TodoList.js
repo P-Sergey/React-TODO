@@ -1,7 +1,9 @@
 import React from 'react';
 import Input from './Input';
 import Counter from './Counter';
+import Checkbox from './Checkbox';
 import DeleteButton from './DeleteButton';
+import './TodoList.css';
 
 class TodoList extends React.Component {
   constructor(props) {
@@ -9,6 +11,7 @@ class TodoList extends React.Component {
     this.state = {
       value: '',
       listItems: [],
+      counter: 0,
     };
   }
   onInputChange = (e) => {
@@ -23,7 +26,19 @@ class TodoList extends React.Component {
   };
   onDeleteClick = (index) => {
     const { listItems } = this.state;
-    this.setState({ listItems: listItems.splice(index, 1) });
+    listItems.splice(index, 1);
+    this.setState({ listItems: listItems });
+  };
+  onCheckboxClick = (index) => {
+    const check = document.getElementById(index);
+    const listItem = document.getElementById('item ' + index);
+    if (check.checked) {
+      console.log('checked', index, listItem);
+      listItem.style.textDecoration = 'line-through';
+    } else {
+      console.log('unchecked', index);
+      listItem.style.textDecoration = 'none';
+    }
   };
   render() {
     const { value, listItems } = this.state;
@@ -36,10 +51,10 @@ class TodoList extends React.Component {
           onInputClick={this.onInputClick}
         />
         {listItems.map((item, index) => (
-          <div key={index}>
-            {item}
+          <div className="listItem" key={index}>
+            <Checkbox id={index} onCheckboxClick={() => this.onCheckboxClick(index)} />
+            <span id={'item ' + index}>{item}</span>
             <DeleteButton
-              index={index}
               listItems={listItems}
               onDeleteClick={() => this.onDeleteClick(index)}
             />
