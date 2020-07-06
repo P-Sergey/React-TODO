@@ -4,8 +4,13 @@ class Checkbox extends React.Component {
   render() {
     const { isDone, onCheck } = this.props;
     return (
-      <div>
-        <input type="checkbox" checked={isDone} value={isDone} onChange={onCheck} />
+      <div className='checkBox'>
+        <input
+          type='checkbox'
+          checked={isDone}
+          value={isDone}
+          onChange={onCheck}
+        />
       </div>
     );
   }

@@ -1,17 +1,53 @@
+.input {
+  font-size: 24px;
+  font-style: italic;
+  border: 2px solid gray;
+}
+
+.inputHeader {
+  margin: 10px auto;
+  font-size: 30px;
+  font-style: italic;
+  color: coral;
+}
+
 .listItem {
   display: flex;
+  height: 30px;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid black;
+  border: 1px solid gray;
   border-top: none;
+  font-size: 20px;
+}
+
+.counter {
+  margin: 10px auto;
+  display: flex;
+  justify-content: space-around;
+  font-style: italic;
+}
+.filter {
+  margin: 10px auto;
+  display: flex;
+  justify-content: space-around;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: italic;
 }
 
 .done {
   text-decoration: line-through;
+  color: green;
 }
 
 .deleteButton {
   border: none;
   background-color: transparent;
   outline: 0;
+  color: red;
+}
+
+.clearCompleted {
+  display: flex;
 }

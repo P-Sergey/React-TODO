@@ -2,9 +2,15 @@ import React from 'react';
 
 class Counter extends React.Component {
   render() {
-    const { listItems } = this.props;
-    const counter = listItems.length;
-    return <div>Amount of list-items: {counter} </div>;
+    const { counter, active, completed } = this.props;
+
+    return (
+      <div className='counter'>
+        <span>Items: {counter}</span>
+        <span>Active: {active}</span>
+        <span>Completed: {completed}</span>
+      </div>
+    );
   }
 }
 

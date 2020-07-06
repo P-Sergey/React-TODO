@@ -18,17 +18,20 @@ class TodoList extends React.Component {
   onInputChange = (e) => {
     this.setState({ value: e.target.value });
   };
-  addItem = () => {
+  addItem = (e) => {
     const { value, listItems } = this.state;
-    if (value !== '') {
-      const id = listItems.length === 0 ? 1 : listItems[listItems.length - 1].id + 1;
-      const item = {
-        id,
-        value,
-        isDone: false,
-      };
-      this.setState({ listItems: [...listItems, item] });
-      this.setState({ value: '' });
+    if (e.which === 13) {
+      if (value !== '') {
+        const id =
+          listItems.length === 0 ? 1 : listItems[listItems.length - 1].id + 1;
+        const item = {
+          id,
+          value,
+          isDone: false,
+        };
+        this.setState({ listItems: [...listItems, item] });
+        this.setState({ value: '' });
+      }
     }
   };
   onDelete = (id) => {
@@ -55,11 +58,18 @@ class TodoList extends React.Component {
       isActive: value,
     });
   };
+  removeDone = () => {
+    const { listItems } = this.state;
+    this.setState({ listItems: listItems.filter((item) => !item.isDone) });
+  };
   render() {
     const { value, listItems, isAll, isActive } = this.state;
     const filteredList = isAll
       ? listItems
       : listItems.filter((item) => item.isDone !== isActive);
+    const counter = listItems.length;
+    const active = listItems.filter((item) => !item.isDone).length;
+    const completed = listItems.filter((item) => item.isDone).length;
     return (
       <div>
         <Input
@@ -69,17 +79,26 @@ class TodoList extends React.Component {
           addItem={this.addItem}
         />
         {filteredList.map(({ id, value, isDone }) => (
-          <div className="listItem" key={id}>
+          <div className='listItem' key={id}>
             <Checkbox isDone={isDone} onCheck={() => this.onCheck(id)} />
-            <span className={isDone ? 'done' : 'undone'}>{value}</span>
+            <span className={isDone ? 'done' : 'active'}>{value}</span>
             <DeleteButton onDelete={() => this.onDelete(id)} />
           </div>
         ))}
-        <Counter listItems={listItems} />
         <div>
-          <button onClick={() => this.filter('isAll', true)}>All</button>
-          <button onClick={() => this.filter('isActive', true)}>Active</button>
-          <button onClick={() => this.filter('isActive', false)}>Completed</button>
+          <Counter counter={counter} active={active} completed={completed} />
+        </div>
+        <div className='filter'>
+          <div>
+            <button onClick={() => this.filter('isAll', true)}>All</button>
+            <button onClick={() => this.filter('isActive', true)}>
+              Active
+            </button>
+            <button onClick={() => this.filter('isActive', false)}>
+              Completed
+            </button>
+          </div>
+          <button onClick={this.removeDone}>Remove completed</button>
         </div>
       </div>
     );

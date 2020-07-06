@@ -5,8 +5,15 @@ class Input extends React.Component {
     const { value, onInputChange, addItem } = this.props;
     return (
       <div>
-        <input value={value} onChange={onInputChange} />
-        <button onClick={addItem}>Add Item</button>
+        <div className='inputHeader'>TODO list</div>
+        <div onKeyPress={addItem}>
+          <input
+            className='input'
+            value={value}
+            placeholder='Input new task...'
+            onChange={onInputChange}
+          />
+        </div>
       </div>
     );
   }
