@@ -4,10 +4,17 @@ import Counter from './Counter';
 import Checkbox from './Checkbox';
 import DeleteButton from './DeleteButton';
 import './TodoList.css';
+import {
+  ADD_TODO,
+  TOGGLE_TODO,
+  DELETE_TODO,
+  DELETE_COMPLETED_TODOS,
+} from './store/actions/actions';
 
 class TodoList extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       value: '',
       listItems: [],
@@ -15,32 +22,40 @@ class TodoList extends React.Component {
       isActive: false,
     };
   }
+
   onInputChange = (e) => {
     this.setState({ value: e.target.value });
   };
+
   addItem = (e) => {
     const { value, listItems } = this.state;
+
     if (e.which === 13) {
       if (value !== '') {
         const id =
           listItems.length === 0 ? 1 : listItems[listItems.length - 1].id + 1;
+
         const item = {
           id,
           value,
           isDone: false,
         };
-        this.setState({ listItems: [...listItems, item] });
-        this.setState({ value: '' });
+
+        this.setState({ listItems: [...listItems, item], value: '' });
       }
     }
   };
+
   onDelete = (id) => {
     const { listItems } = this.state;
     const newLisItems = listItems.filter((item) => item.id !== id);
+
     this.setState({ listItems: newLisItems });
   };
+
   onCheck = (id) => {
     const { listItems } = this.state;
+
     const newLisItems = listItems.map((item) => {
       if (id === item.id) {
         return {
@@ -52,24 +67,29 @@ class TodoList extends React.Component {
     });
     this.setState({ listItems: newLisItems });
   };
+
   filter = (type, value) => {
     this.setState({
       isAll: type === 'isAll' ? true : false,
       isActive: value,
     });
   };
+
   removeDone = () => {
     const { listItems } = this.state;
     this.setState({ listItems: listItems.filter((item) => !item.isDone) });
   };
+
   render() {
     const { value, listItems, isAll, isActive } = this.state;
     const filteredList = isAll
       ? listItems
       : listItems.filter((item) => item.isDone !== isActive);
+
     const counter = listItems.length;
     const active = listItems.filter((item) => !item.isDone).length;
     const completed = listItems.filter((item) => item.isDone).length;
+
     return (
       <div>
         <Input
