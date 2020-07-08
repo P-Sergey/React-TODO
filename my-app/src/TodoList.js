@@ -4,20 +4,21 @@ import Counter from './Counter';
 import Checkbox from './Checkbox';
 import DeleteButton from './DeleteButton';
 import './TodoList.css';
+import { connect } from 'react-redux';
 import {
-  ADD_TODO,
-  TOGGLE_TODO,
-  DELETE_TODO,
-  DELETE_COMPLETED_TODOS,
+  addTodo,
+  toggleTodo,
+  deleteTodo,
+  deleteCompletedTodo,
 } from './store/actions/actions';
 
 class TodoList extends React.Component {
   constructor(props) {
     super(props);
+    console.log(props);
 
     this.state = {
       value: '',
-      listItems: [],
       isAll: true,
       isActive: false,
     };
@@ -75,13 +76,14 @@ class TodoList extends React.Component {
     });
   };
 
-  removeDone = () => {
+  removeCompleted = () => {
     const { listItems } = this.state;
     this.setState({ listItems: listItems.filter((item) => !item.isDone) });
   };
 
   render() {
-    const { value, listItems, isAll, isActive } = this.state;
+    const { value, isAll, isActive } = this.state;
+    const { listItems } = this.props;
     const filteredList = isAll
       ? listItems
       : listItems.filter((item) => item.isDone !== isActive);
@@ -118,11 +120,20 @@ class TodoList extends React.Component {
               Completed
             </button>
           </div>
-          <button onClick={this.removeDone}>Remove completed</button>
+          <button onClick={this.removeCompleted}>Remove completed</button>
         </div>
       </div>
     );
   }
 }
 
-export default TodoList;
+const mapStateToProps = (state) => state;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addItem: () => {
+      dispatch(addTodo());
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoList);
