@@ -1,5 +1,6 @@
 import {
   ADD_TODO,
+  FILTER_TODO,
   TOGGLE_TODO,
   DELETE_TODO,
   DELETE_COMPLETED_TODOS,
@@ -7,6 +8,8 @@ import {
 
 const initialState = {
   listItems: [],
+  isAll: true,
+  isActive: false,
 };
 
 const todoApp = (state = initialState, action) => {
@@ -23,6 +26,13 @@ const todoApp = (state = initialState, action) => {
           }
           return item;
         }),
+      };
+
+    case FILTER_TODO:
+      return {
+        ...state,
+        isAll: action.filter === 'isAll' ? true : false,
+        isActive: action.value,
       };
 
     case DELETE_TODO:

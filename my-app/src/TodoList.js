@@ -7,89 +7,51 @@ import './TodoList.css';
 import { connect } from 'react-redux';
 import {
   addTodo,
+  filterTodo,
   toggleTodo,
   deleteTodo,
   deleteCompletedTodo,
 } from './store/actions/actions';
-import { bindActionCreators } from 'redux';
 
 class TodoList extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      value: '',
-      isAll: true,
-      isActive: false,
-    };
-  }
-
-  onInputChange = (e) => {
-    this.setState({ value: e.target.value });
-  };
-
-  addItem = (e) => {
+  /* addItem = (e) => {
     const { listItems } = this.props;
-    const { value } = this.state;
+    const { value } = this.props;
 
-    const id =
-      listItems.length === 0 ? 1 : listItems[listItems.length - 1].id + 1;
     if (e.which === 13) {
       if (value !== '') {
+        const id =
+          listItems.length === 0 ? 1 : listItems[listItems.length - 1].id + 1;
         const item = {
           id,
           value,
           isDone: false,
         };
         //const dispatch = this.props.dispatch;
-        addTodo(item);
+        this.props.addTodo(item);
         //this.setState({ listItems: [...listItems, item], value: '' });
       }
     }
-  };
+  }; */
 
   onDelete = (id) => {
-    /* const { listItems } = this.props;
-    const newLisItems = listItems.filter((item) => item.id !== id);
-
-    this.setState({ listItems: newLisItems }); */
-    //const dispatch = this.props.dispatch;
-    deleteTodo(id);
+    this.props.deleteTodo(id);
   };
 
   onCheck = (id) => {
-    /*const { listItems } = this.props;
-
-     const newLisItems = listItems.map((item) => {
-      if (id === item.id) {
-        return {
-          ...item,
-          isDone: !item.isDone,
-        };
-      }
-      return item;
-    });
-    this.setState({ listItems: newLisItems }); */
-    //const dispatch = this.props.dispatch;
-    toggleTodo(id);
+    this.props.toggleTodo(id);
   };
 
   filter = (filter, value) => {
-    this.setState({
-      isAll: filter === 'isAll' ? true : false,
-      isActive: value,
-    });
+    this.props.filterTodo(filter, value);
   };
 
   removeCompleted = () => {
-    /* const { listItems } = this.props;
-    this.setState({ listItems: listItems.filter((item) => !item.isDone) }); */
-    //const dispatch = this.props.dispatch;
-    deleteCompletedTodo();
+    this.props.deleteCompletedTodo();
   };
 
   render() {
-    const { value, isAll, isActive } = this.state;
+    const { isAll, isActive } = this.props;
     const { listItems } = this.props;
     const filteredList = isAll
       ? listItems
@@ -102,10 +64,9 @@ class TodoList extends React.Component {
     return (
       <div>
         <Input
-          value={value}
+          addTodo={this.props.addTodo}
           listItems={listItems}
-          onInputChange={this.onInputChange}
-          addItem={this.addItem}
+          //addItem={this.addItem}
         />
         {filteredList.map(({ id, value, isDone }) => (
           <div className='listItem' key={id}>
@@ -135,11 +96,12 @@ class TodoList extends React.Component {
 }
 
 const mapStateToProps = (state) => state;
-const mapDispatchToProps = (dispatch) => ({
-  addTodo: bindActionCreators(addTodo, dispatch),
-  toggleTodo: bindActionCreators(toggleTodo, dispatch),
-  deleteTodo: bindActionCreators(deleteTodo, dispatch),
-  deleteCompletedTodo: bindActionCreators(deleteCompletedTodo, dispatch),
-});
+const mapDispatchToProps = {
+  addTodo,
+  filterTodo,
+  toggleTodo,
+  deleteTodo,
+  deleteCompletedTodo,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoList);

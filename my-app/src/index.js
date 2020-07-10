@@ -17,7 +17,7 @@ render(
   </Provider>,
   document.getElementById('root')
 );
-setTimeout(() => {
+/* setTimeout(() => {
   store.dispatch({
     type: 'ADD_TODO',
     payload: { id: 2, value: 'fff', isDone: false },
@@ -29,7 +29,7 @@ setTimeout(() => {
     type: 'ADD_TODO',
     payload: { id: 3, value: 'fff', isDone: true },
   });
-}, 8000);
+}, 8000); */
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
