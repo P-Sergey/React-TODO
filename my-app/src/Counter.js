@@ -1,7 +1,10 @@
 import React from 'react';
 
 const Counter = (props) => {
-  const { counter, active, completed } = props;
+  const { listItems } = props;
+  const counter = listItems.length;
+  const active = listItems.filter((item) => !item.isDone).length;
+  const completed = listItems.filter((item) => item.isDone).length;
 
   return (
     <div className='counter'>

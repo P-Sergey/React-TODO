@@ -5,90 +5,56 @@ import Checkbox from './Checkbox';
 import DeleteButton from './DeleteButton';
 import './TodoList.css';
 import { connect } from 'react-redux';
+import { setIsAll, setIsActive } from './store/actions/filter';
 import {
   addTodo,
-  filterTodo,
   toggleTodo,
   deleteTodo,
-  deleteCompletedTodo,
-} from './store/actions/actions';
+  deleteCompletedTodos,
+} from './store/actions/todo';
 
 class TodoList extends React.Component {
-  /* addItem = (e) => {
-    const { listItems } = this.props;
-    const { value } = this.props;
-
-    if (e.which === 13) {
-      if (value !== '') {
-        const id =
-          listItems.length === 0 ? 1 : listItems[listItems.length - 1].id + 1;
-        const item = {
-          id,
-          value,
-          isDone: false,
-        };
-        //const dispatch = this.props.dispatch;
-        this.props.addTodo(item);
-        //this.setState({ listItems: [...listItems, item], value: '' });
-      }
-    }
-  }; */
-
-  onDelete = (id) => {
-    this.props.deleteTodo(id);
-  };
-
-  onCheck = (id) => {
-    this.props.toggleTodo(id);
-  };
-
-  filter = (filter, value) => {
-    this.props.filterTodo(filter, value);
-  };
-
-  removeCompleted = () => {
-    this.props.deleteCompletedTodo();
-  };
-
   render() {
-    const { isAll, isActive } = this.props;
-    const { listItems } = this.props;
+    const {
+      addTodo,
+      setIsAll,
+      setIsActive,
+      toggleTodo,
+      deleteTodo,
+      deleteCompletedTodos,
+    } = this.props;
+    const { isAll, isActive } = this.props.filter;
+    const { listItems } = this.props.todo;
     const filteredList = isAll
       ? listItems
       : listItems.filter((item) => item.isDone !== isActive);
 
-    const counter = listItems.length;
-    const active = listItems.filter((item) => !item.isDone).length;
-    const completed = listItems.filter((item) => item.isDone).length;
-
     return (
       <div>
-        <Input
-          addTodo={this.props.addTodo}
-          listItems={listItems}
-          //addItem={this.addItem}
-        />
+        <Input addTodo={addTodo} listItems={listItems} />
         {filteredList.map(({ id, value, isDone }) => (
           <div className='listItem' key={id}>
-            <Checkbox isDone={isDone} onCheck={() => this.onCheck(id)} />
+            <Checkbox isDone={isDone} onCheck={() => toggleTodo(id)} />
             <span className={isDone ? 'done' : 'active'}>{value}</span>
-            <DeleteButton onDelete={() => this.onDelete(id)} />
+            <DeleteButton onDelete={() => deleteTodo(id)} />
           </div>
         ))}
         <div>
-          <Counter counter={counter} active={active} completed={completed} />
+          <Counter listItems={listItems} />
         </div>
         <div className='filter'>
           <div>
-            <button onClick={() => this.filter('isAll', true)}>All</button>
-            <button onClick={() => this.filter('isActive', true)}>
-              Active
-            </button>
-            <button onClick={() => this.filter('isActive', false)}>
-              Completed
-            </button>
+            <button onClick={() => setIsAll(true)}>All</button>
+            <button onClick={() => setIsActive(true)}>Active</button>
+            <button onClick={() => setIsActive(false)}>Completed</button>
           </div>
-          <button onClick={this.removeCompleted}>Remove completed</button>
+          <button
+            onClick={() => {
+              deleteCompletedTodos();
+            }}
+          >
+            Remove completed
+          </button>
         </div>
       </div>
     );
@@ -98,10 +64,11 @@ class TodoList extends React.Component {
 const mapStateToProps = (state) => state;
 const mapDispatchToProps = {
   addTodo,
-  filterTodo,
+  setIsAll,
+  setIsActive,
   toggleTodo,
   deleteTodo,
-  deleteCompletedTodo,
+  deleteCompletedTodos,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoList);

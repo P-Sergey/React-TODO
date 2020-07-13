@@ -13,8 +13,9 @@
 }
 
 .listItem {
+  width: 306px;
   display: flex;
-  height: 30px;
+  min-height: 30px;
   justify-content: space-between;
   align-items: center;
   border: 1px solid gray;
