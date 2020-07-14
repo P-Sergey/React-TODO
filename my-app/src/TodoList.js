@@ -5,16 +5,25 @@ import Checkbox from './Checkbox';
 import DeleteButton from './DeleteButton';
 import './TodoList.css';
 import { connect } from 'react-redux';
-import { setIsAll, setIsActive } from './store/actions/filter';
 import {
+  setIsAll,
+  setIsActive,
   addTodo,
   toggleTodo,
   deleteTodo,
   deleteCompletedTodos,
-} from './store/actions/todo';
+} from './store/actions';
+import {
+  getListItems,
+  getIsActive,
+  getIsAll,
+  getFilteredList,
+} from './store/selectors/selector';
 
 class TodoList extends React.Component {
   render() {
+    console.log('render');
+
     const {
       addTodo,
       setIsAll,
@@ -23,8 +32,7 @@ class TodoList extends React.Component {
       deleteTodo,
       deleteCompletedTodos,
     } = this.props;
-    const { isAll, isActive } = this.props.filter;
-    const { listItems } = this.props.todo;
+    const { isAll, isActive, listItems } = this.props;
     const filteredList = isAll
       ? listItems
       : listItems.filter((item) => item.isDone !== isActive);
@@ -61,7 +69,15 @@ class TodoList extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => state;
+const mapStateToProps = (state) => {
+  console.log('mapStateToProps');
+  return {
+    listItems: getListItems(state),
+    isAll: getIsAll(state),
+    isActive: getIsActive(state),
+    getFilteredList: getFilteredList,
+  };
+};
 const mapDispatchToProps = {
   addTodo,
   setIsAll,
