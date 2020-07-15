@@ -5,7 +5,7 @@ const Filter = (props) => {
   return (
     <div className='filter'>
       <div>
-        <button onClick={() => setIsAll(true)}>All</button>
+        <button onClick={setIsAll}>All</button>
         <button onClick={() => setIsActive(true)}>Active</button>
         <button onClick={() => setIsActive(false)}>Completed</button>
       </div>

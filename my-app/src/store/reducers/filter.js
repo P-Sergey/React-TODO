@@ -7,7 +7,7 @@ const filter = (state = initialState, action) => {
     case SET_IS_ALL:
       return {
         ...state,
-        isAll: action.payload,
+        isAll: true,
       };
     case SET_IS_ACTIVE:
       return {

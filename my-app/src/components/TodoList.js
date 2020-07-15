@@ -6,7 +6,7 @@ import Checkbox from './Checkbox';
 import DeleteButton from './DeleteButton';
 import './TodoList.css';
 import { connect } from 'react-redux';
-import { getListItems, getFilteredList } from './store/selectors/selector';
+import { getListItems, getFilteredList } from '../store/selectors/selector';
 import {
   setIsAll,
   setIsActive,
@@ -14,7 +14,7 @@ import {
   toggleTodo,
   deleteTodo,
   deleteCompletedTodos,
-} from './store/actions';
+} from '../store/actions';
 
 class TodoList extends React.Component {
   render() {
