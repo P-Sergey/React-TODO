@@ -1,10 +1,12 @@
 import React from 'react';
 import Input from './Input';
+import Filter from './Filter';
 import Counter from './Counter';
 import Checkbox from './Checkbox';
 import DeleteButton from './DeleteButton';
 import './TodoList.css';
 import { connect } from 'react-redux';
+import { getListItems, getFilteredList } from './store/selectors/selector';
 import {
   setIsAll,
   setIsActive,
@@ -13,17 +15,9 @@ import {
   deleteTodo,
   deleteCompletedTodos,
 } from './store/actions';
-import {
-  getListItems,
-  getIsActive,
-  getIsAll,
-  getFilteredList,
-} from './store/selectors/selector';
 
 class TodoList extends React.Component {
   render() {
-    console.log('render');
-
     const {
       addTodo,
       setIsAll,
@@ -31,11 +25,9 @@ class TodoList extends React.Component {
       toggleTodo,
       deleteTodo,
       deleteCompletedTodos,
+      listItems,
+      filteredList,
     } = this.props;
-    const { isAll, isActive, listItems } = this.props;
-    const filteredList = isAll
-      ? listItems
-      : listItems.filter((item) => item.isDone !== isActive);
 
     return (
       <div>
@@ -50,34 +42,20 @@ class TodoList extends React.Component {
         <div>
           <Counter listItems={listItems} />
         </div>
-        <div className='filter'>
-          <div>
-            <button onClick={() => setIsAll(true)}>All</button>
-            <button onClick={() => setIsActive(true)}>Active</button>
-            <button onClick={() => setIsActive(false)}>Completed</button>
-          </div>
-          <button
-            onClick={() => {
-              deleteCompletedTodos();
-            }}
-          >
-            Remove completed
-          </button>
-        </div>
+        <Filter
+          setIsAll={setIsAll}
+          setIsActive={setIsActive}
+          deleteCompleted={deleteCompletedTodos}
+        />
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  console.log('mapStateToProps');
-  return {
-    listItems: getListItems(state),
-    isAll: getIsAll(state),
-    isActive: getIsActive(state),
-    getFilteredList: getFilteredList,
-  };
-};
+const mapStateToProps = (state) => ({
+  listItems: getListItems(state),
+  filteredList: getFilteredList(state),
+});
 const mapDispatchToProps = {
   addTodo,
   setIsAll,
@@ -87,4 +65,6 @@ const mapDispatchToProps = {
   deleteCompletedTodos,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TodoList);
+const finalTodoList = connect(mapStateToProps, mapDispatchToProps)(TodoList);
+
+export default finalTodoList;

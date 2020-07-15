@@ -12,6 +12,11 @@ export const getIsAll = (state) => {
   return state.filter.isAll;
 };
 
-export const getFilteredList = createSelector(getListItems, (items) => {
-  return items.filter((item) => item.isDone !== getIsActive());
-});
+export const getFilteredList = createSelector(
+  [getListItems, getIsAll, getIsActive],
+  (listItems, isAll, isActive) => {
+    return isAll
+      ? listItems
+      : listItems.filter((item) => item.isDone !== isActive);
+  }
+);

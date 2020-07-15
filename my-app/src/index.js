@@ -2,12 +2,12 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import index from './store/reducers';
+import reducer from './store/reducers';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 const store = createStore(
-  index,
+  reducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
