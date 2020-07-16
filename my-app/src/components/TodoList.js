@@ -4,6 +4,7 @@ import Filter from './Filter';
 import Counter from './Counter';
 import Checkbox from './Checkbox';
 import DeleteButton from './DeleteButton';
+import PostsList from './PostsList';
 import './TodoList.css';
 import { connect } from 'react-redux';
 import { getListItems, getFilteredList } from '../store/selectors/selector';
@@ -47,6 +48,7 @@ class TodoList extends React.Component {
           setIsActive={setIsActive}
           deleteCompleted={deleteCompletedTodos}
         />
+        <PostsList />
       </div>
     );
   }

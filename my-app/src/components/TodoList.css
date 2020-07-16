@@ -31,11 +31,25 @@
 }
 .filter {
   margin: 10px auto;
+  width: 310px;
   display: flex;
   justify-content: space-around;
   font-size: 16px;
   font-weight: normal;
   font-style: italic;
+}
+
+.postsList {
+  width: 310px;
+  height: 300px;
+  text-align: justify;
+  overflow-y: scroll;
+  padding-left: 0px;
+}
+
+.postsList__post {
+  margin: 10px 0 0 20px;
+  list-style: circle;
 }
 
 .done {
