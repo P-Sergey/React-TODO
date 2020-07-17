@@ -3,9 +3,8 @@ export const SET_POSTS = 'SET_POSTS';
 export const SET_LOADING = 'SET_LOADING';
 export const SET_ERROR = 'SET_ERROR';
 
-export const getPosts = (posts) => ({
+export const getPosts = () => ({
   type: GET_POSTS,
-  payload: posts,
 });
 
 export const setPosts = (posts) => ({

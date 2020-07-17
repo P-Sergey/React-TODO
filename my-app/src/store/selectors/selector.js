@@ -20,3 +20,15 @@ export const getFilteredList = createSelector(
       : listItems.filter((item) => item.isDone !== isActive);
   }
 );
+
+export const getSettedPosts = (state) => {
+  return state.posts.posts;
+};
+
+export const getSettedLoading = (state) => {
+  return state.posts.loading;
+};
+
+export const getSettedError = (state) => {
+  return state.posts.error;
+};
