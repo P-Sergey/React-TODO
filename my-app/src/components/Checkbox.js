@@ -1,7 +1,9 @@
 import React from 'react';
+import { toggleTodo } from '../store/actions';
+import { connect } from 'react-redux';
 
 const Checkbox = (props) => {
-  const { isDone, onCheck } = props;
+  const { isDone, id, toggleTodo } = props;
 
   return (
     <div className='checkBox'>
@@ -9,10 +11,15 @@ const Checkbox = (props) => {
         type='checkbox'
         checked={isDone}
         value={isDone}
-        onChange={onCheck}
+        onChange={() => toggleTodo(id)}
       />
     </div>
   );
 };
 
-export default Checkbox;
+const mapDispatchToProps = {
+  toggleTodo,
+};
+
+const finalCheckbox = connect(null, mapDispatchToProps)(Checkbox);
+export default finalCheckbox;

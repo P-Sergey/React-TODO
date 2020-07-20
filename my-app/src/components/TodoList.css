@@ -52,6 +52,16 @@
   list-style: circle;
 }
 
+.loading {
+  width: 200px;
+  height: 200px;
+  opacity: 50%;
+}
+
+.error {
+  width: 100px;
+  height: 100px;
+}
 .done {
   text-decoration: line-through;
   color: green;

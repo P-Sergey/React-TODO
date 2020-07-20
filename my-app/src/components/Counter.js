@@ -1,4 +1,6 @@
 import React from 'react';
+import { getListItems } from '../store/selectors/selector';
+import { connect } from 'react-redux';
 
 const Counter = (props) => {
   const { listItems } = props;
@@ -15,4 +17,9 @@ const Counter = (props) => {
   );
 };
 
-export default Counter;
+const mapStateToProps = (state) => ({
+  listItems: getListItems(state),
+});
+
+const finalCounter = connect(mapStateToProps)(Counter);
+export default finalCounter;

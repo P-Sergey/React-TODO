@@ -1,4 +1,7 @@
 import React from 'react';
+import { addTodo } from '../store/actions';
+import { connect } from 'react-redux';
+import { getListItems } from '../store/selectors/selector';
 
 class Input extends React.Component {
   constructor(props) {
@@ -45,4 +48,13 @@ class Input extends React.Component {
   }
 }
 
-export default Input;
+const mapStateToProps = (state) => ({
+  listItems: getListItems(state),
+});
+
+const mapDispatchToProps = {
+  addTodo,
+};
+
+const finalInput = connect(mapStateToProps, mapDispatchToProps)(Input);
+export default finalInput;
