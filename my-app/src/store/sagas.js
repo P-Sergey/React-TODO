@@ -5,10 +5,7 @@ import { GET_POSTS, setPosts, setError, setLoading } from './actions';
 function* fetchPosts() {
   try {
     const result = yield call(getPostApi);
-    if (
-      !Array.isArray(result.data.result) ||
-      result.data.result === undefined
-    ) {
+    if (result.data.result || !Array.isArray(result.data.result)) {
       throw new Error('Wrong API-data');
     }
     yield put(setPosts(result.data.result));

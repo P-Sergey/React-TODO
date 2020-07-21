@@ -8,6 +8,7 @@ import * as serviceWorker from './serviceWorker';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
 import { getPostsWatcher } from './store/sagas';
+
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
   reducer,
