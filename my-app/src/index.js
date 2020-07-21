@@ -5,9 +5,16 @@ import { createStore, applyMiddleware } from 'redux';
 import reducer from './store/reducers';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
-const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
+import createSagaMiddleware from 'redux-saga';
+import { getPostsWatcher } from './store/sagas';
+const sagaMiddleware = createSagaMiddleware();
+const store = createStore(
+  reducer,
+  composeWithDevTools(applyMiddleware(sagaMiddleware))
+);
+
+sagaMiddleware.run(getPostsWatcher);
 
 render(
   <Provider store={store}>

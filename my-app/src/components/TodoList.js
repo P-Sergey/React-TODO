@@ -8,19 +8,20 @@ import DeleteButton from './DeleteButton';
 import './TodoList.css';
 import { connect } from 'react-redux';
 import { getFilteredList } from '../store/selectors/selector';
+import { toggleTodo, deleteTodo } from '../store/actions';
 
 class TodoList extends React.Component {
   render() {
-    const { filteredList } = this.props;
+    const { filteredList, deleteTodo, toggleTodo } = this.props;
 
     return (
       <div>
         <Input />
         {filteredList.map(({ id, value, isDone }) => (
           <div className='listItem' key={id}>
-            <Checkbox isDone={isDone} id={id} />
+            <Checkbox isDone={isDone} toggleTodo={() => toggleTodo(id)} />
             <span className={isDone ? 'done' : 'active'}>{value}</span>
-            <DeleteButton id={id} />
+            <DeleteButton deleteTodo={() => deleteTodo(id)} />
           </div>
         ))}
         <div>
@@ -37,6 +38,11 @@ const mapStateToProps = (state) => ({
   filteredList: getFilteredList(state),
 });
 
-const finalTodoList = connect(mapStateToProps)(TodoList);
+const mapDispatchToProps = {
+  deleteTodo,
+  toggleTodo,
+};
+
+const finalTodoList = connect(mapStateToProps, mapDispatchToProps)(TodoList);
 
 export default finalTodoList;

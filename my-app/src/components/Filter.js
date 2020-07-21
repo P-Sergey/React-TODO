@@ -1,14 +1,13 @@
 import React from 'react';
 import { setIsAll, setIsActive, deleteCompletedTodos } from '../store/actions';
-import { getIsAll } from '../store/selectors/selector';
 import { connect } from 'react-redux';
 
 const Filter = (props) => {
-  const { setIsAll, setIsActive, deleteCompletedTodos, isAll } = props;
+  const { setIsAll, setIsActive, deleteCompletedTodos } = props;
   return (
     <div className='filter'>
       <div>
-        <button onClick={() => setIsAll(isAll)}>All</button>
+        <button onClick={setIsAll}>All</button>
         <button onClick={() => setIsActive(true)}>Active</button>
         <button onClick={() => setIsActive(false)}>Completed</button>
       </div>
@@ -23,16 +22,12 @@ const Filter = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  isAll: getIsAll(state),
-});
-
 const mapDispatchToProps = {
   setIsAll,
   setIsActive,
   deleteCompletedTodos,
 };
 
-const finalFilter = connect(mapStateToProps, mapDispatchToProps)(Filter);
+const finalFilter = connect(null, mapDispatchToProps)(Filter);
 
 export default finalFilter;

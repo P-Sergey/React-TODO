@@ -1,6 +1,6 @@
-import getApi from '../../API/api';
-export const SET_POSTS = 'SET_POSTS';
 export const SET_LOADING = 'SET_LOADING';
+export const GET_POSTS = 'GET_POSTS';
+export const SET_POSTS = 'SET_POSTS';
 export const SET_ERROR = 'SET_ERROR';
 
 export const setPosts = (posts) => ({
@@ -18,19 +18,6 @@ export const setError = (value) => ({
   payload: value,
 });
 
-export const getPosts = () => {
-  return (dispatch) => {
-    getApi()
-      .then((response) => {
-        if (
-          !Array.isArray(response.data.result) ||
-          response.data.result === undefined
-        ) {
-          throw new Error('Wrong data');
-        }
-        dispatch(setPosts(response.data.result));
-      })
-      .catch((error) => dispatch(setError(error)))
-      .finally(() => dispatch(setLoading(false)));
-  };
-};
+export const getPosts = () => ({
+  type: GET_POSTS,
+});

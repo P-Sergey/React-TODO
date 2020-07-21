@@ -1,13 +1,13 @@
 import React from 'react';
-import Loading from './Loading';
 import Error from './Error';
+import Loading from './Loading';
+import { connect } from 'react-redux';
 import { setLoading, getPosts } from '../store/actions';
 import {
   getSettedPosts,
   getSettedLoading,
   getSettedError,
 } from '../store/selectors/selector';
-import { connect } from 'react-redux';
 
 class PostsList extends React.Component {
   componentDidMount() {
